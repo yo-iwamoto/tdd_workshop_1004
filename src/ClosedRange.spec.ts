@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { ClosedRange } from './ClosedRange';
 
-describe('閉区間を表現する ClosedRange クラスの実装', () => {
+describe('閉区間を表現する ClosedRange クラス', () => {
   describe('下端点・上端点を持つ', () => {
     test('[1,2] のインスタンスで、文字列 [1,2] を出力する', () => {
       const r = new ClosedRange(1, 2);
@@ -90,8 +90,18 @@ describe('閉区間を表現する ClosedRange クラスの実装', () => {
   });
 
   describe('上端または下端として整数以外を使用できない', () => {
-    test('[1.1,3.3] を渡すと例外を投げる', () => {
-      const initRangeWithFloat = () => new ClosedRange(1.1, 3.3);
+    test('[1,1.5] を渡すと例外を投げる', () => {
+      const initRangeWithFloat = () => new ClosedRange(1, 1.5);
+      expect(initRangeWithFloat).toThrowError();
+    });
+
+    test('[1.5,2] を渡すと例外を投げる', () => {
+      const initRangeWithFloat = () => new ClosedRange(1.5, 2);
+      expect(initRangeWithFloat).toThrowError();
+    });
+
+    test('[1.5,1.5] を渡すと例外を投げる', () => {
+      const initRangeWithFloat = () => new ClosedRange(1.5, 1.5);
       expect(initRangeWithFloat).toThrowError();
     });
   });

@@ -22,22 +22,22 @@ describe('閉区間を表現する ClosedRange クラスの実装', () => {
   });
 
   describe('任意の整数が閉区間に含まれるか判定できる', () => {
-    test('[1,3] の ClosedRange で includes に 0 を渡すと false を返す', () => {
-      const r = new ClosedRange(1, 3);
-      expect(r.includes(0)).toBe(false);
+    test('[-2,2] の ClosedRange で includes に -3 を渡すと false を返す', () => {
+      const r = new ClosedRange(-2, 2);
+      expect(r.includes(-3)).toBe(false);
     });
 
-    test.each<number>([1, 2, 3])(
-      '[1,3] の ClosedRange で includes に %d を渡すと true を返す',
+    test.each<number>([-2, -1, 0, 1, 2])(
+      '[-2,2] の ClosedRange で includes に %d を渡すと true を返す',
       (n) => {
-        const r = new ClosedRange(1, 3);
+        const r = new ClosedRange(-2, 2);
         expect(r.includes(n)).toBe(true);
       },
     );
 
-    test('[1,3] の ClosedRange で includes に 4 を渡すと false を返す', () => {
-      const r = new ClosedRange(1, 3);
-      expect(r.includes(4)).toBe(false);
+    test('[-2,2] の ClosedRange で includes に 3 を渡すと false を返す', () => {
+      const r = new ClosedRange(-2, 2);
+      expect(r.includes(3)).toBe(false);
     });
   });
 
@@ -86,6 +86,13 @@ describe('閉区間を表現する ClosedRange クラスの実装', () => {
       const r = new ClosedRange(1, 5);
       const another = new ClosedRange(1, 6);
       expect(r.contains(another)).toBe(false);
+    });
+  });
+
+  describe('上端または下端として整数以外を使用できない', () => {
+    test('[1.1,3.3] を渡すと例外を投げる', () => {
+      const initRangeWithFloat = () => new ClosedRange(1.1, 3.3);
+      expect(initRangeWithFloat).toThrowError();
     });
   });
 });

@@ -1,11 +1,18 @@
 export class ClosedRange {
   /**
    * 下端点が上端点より大きい時、例外
+   * min または max のいずれかが整数でない場合、例外
    *
    * @throws Error
    */
   constructor(public min: number, public max: number) {
     if (min > max) {
+      throw new Error();
+    }
+
+    // min、max 両方が整数であること
+    const bothMinAndMaxIsInteger = Number.isInteger(min) && Number.isInteger(max);
+    if (!bothMinAndMaxIsInteger) {
       throw new Error();
     }
   }
